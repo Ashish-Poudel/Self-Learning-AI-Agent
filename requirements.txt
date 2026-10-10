@@ -1,0 +1,4 @@
+
+mem0ai==2.2.1
+ollama
+qdrant-client==1.19.1
