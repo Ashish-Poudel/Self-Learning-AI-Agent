@@ -36,3 +36,4 @@ def test_division_by_zero():
 def test_reject_unsupported_expression():
     with pytest.raises(ValueError):
         calculate("10 + unknown")
+
