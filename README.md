@@ -24,15 +24,37 @@ conversations and use a Python calculator tool for arithmetic.
 - Qdrant
 - nomic-embed-text
 
+
 ## Architecture
 
-1. The user submits a question.
-2. Mem0 searches for relevant saved memories.
-3. The local LLM receives the question and memory context.
-4. The agent can request the calculator tool when needed.
-5. Python executes the calculation and returns the result.
-6. The LLM generates a final response.
-7. Mem0 processes the conversation for persistent memory.
+```mermaid
+flowchart TD
+    U[User] --> A[Python AI Agent]
+    A --> M[Mem0 Memory Search]
+    M --> Q[(Qdrant Vector Store)]
+    Q --> M
+    M --> L[Local Llama 3.2 via Ollama]
+    L --> D{Calculator Needed?}
+    D -- Yes --> C[Python Calculator Tool]
+    C --> L
+    D -- No --> R[Final Response]
+    L --> R
+    R --> S[Mem0 Memory Processing]
+    S --> Q
+    E[nomic-embed-text] --> M
+    E --> S
+```
+
+### Architecture Overview
+
+- **Python AI Agent:** Coordinates the user's question, memory retrieval, model response, and tool execution.
+- **Ollama and Llama 3.2:** Generate responses locally.
+- **Mem0:** Extracts and retrieves useful information from conversations.
+- **Qdrant:** Stores vector-based memories locally.
+- **nomic-embed-text:** Converts text into embeddings for semantic retrieval.
+- **Calculator Tool:** Executes supported arithmetic expressions when requested by the model.
+```
+
 
 ## Prerequisites
 
