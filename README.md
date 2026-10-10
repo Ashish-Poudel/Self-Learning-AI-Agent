@@ -46,7 +46,7 @@ conversations and use a Python calculator tool for arithmetic.
 Clone the repository and enter the project directory:
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/Ashish-Poudel/Self-Learning-AI-Agent
 cd self-learning-agent
 ```
 
@@ -108,13 +108,4 @@ after restarting it.
 - Build a simple web interface.
 - Add evaluation metrics for memory retrieval and tool use.
 
-## Inspiration
 
-This project follows the Mem0-based approach demonstrated
-in Dave Ebbelaar's AI agent tutorial.
-
-Tutorial:
-https://www.youtube.com/watch?v=ynhl8KjjS3Y
-
-Reference repository:
-https://github.com/daveebbelaar/ai-cookbook/tree/main/knowledge/mem0
