@@ -1,36 +1,5 @@
 
-from mem0 import Memory
-
-
-def test_memory_can_be_saved_and_retrieved():
-    config = {
-        "vector_store": {
-            "provider": "qdrant",
-            "config": {
-                "collection_name": "self_learning_agent",
-                "path": "./qdrant_data",
-                "on_disk": True,
-                "embedding_model_dims": 768,
-            },
-        },
-        "llm": {
-            "provider": "ollama",
-            "config": {
-                "model": "llama3.2:3b",
-                "temperature": 0,
-                "ollama_base_url": "http://localhost:11434",
-            },
-        },
-        "embedder": {
-            "provider": "ollama",
-            "config": {
-                "model": "nomic-embed-text",
-                "ollama_base_url": "http://localhost:11434",
-            },
-        },
-    }
-
-    memory = Memory.from_config(config)
+def test_memory_can_be_saved_and_retrieved(memory):
     user_id = "pytest_memory_test"
 
     fact = (

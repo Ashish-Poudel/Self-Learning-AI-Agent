@@ -44,4 +44,4 @@ def test_model_selects_calculator_tool():
     assert tool_calls[0]["function"]["name"] == "calculator"
 
     expression = tool_calls[0]["function"]["arguments"]["expression"]
-    assert expression == "125 * 8"
+    assert expression.replace(" ", "") == "125*8"

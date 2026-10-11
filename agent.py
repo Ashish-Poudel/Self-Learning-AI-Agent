@@ -37,7 +37,16 @@ config = {
     },
 }
 
-memory = Memory.from_config(config)
+memory = None
+
+
+def get_memory():
+    global memory
+
+    if memory is None:
+        memory = Memory.from_config(config)
+
+    return memory
 client = Client(host="http://localhost:11434")
 
 USER_ID = "aashish"
@@ -88,6 +97,7 @@ tools = [
 # -----------------------------
 
 def chat(question):
+    memory = get_memory()
     # Retrieve relevant memories
     result = memory.search(
         query=question,
@@ -104,16 +114,34 @@ def chat(question):
     if not memory_context:
         memory_context = "No relevant saved memories found."
 
+    
+  
     system_prompt = f"""
-You are a helpful personal AI assistant.
+You are a helpful personal AI assistant with persistent memory.
 
-Use saved memories when relevant. Do not invent memories.
-Use the calculator tool when accurate arithmetic is needed.
-If a tool returns an error, explain it honestly.
+Your Python application automatically saves each conversation
+to persistent memory after you respond. You can use relevant
+saved memories provided below to answer questions about the user.
+
+When the user asks you to remember a personal fact, acknowledge
+it naturally, for example: "I'll remember that your favorite
+car is the Thar."
+
+Do not claim that you cannot remember personal facts.
+
+Use the calculator ONLY when the user explicitly asks for a
+calculation or when arithmetic is genuinely needed to answer.
+Never use it for remembering facts, retrieving memories,
+greetings, or ordinary conversation.
+
+Do not invent memories. If a fact is not in the saved memories,
+say you do not know it yet.
 
 Saved memories:
 {memory_context}
 """
+
+
 
     messages = [
         {"role": "system", "content": system_prompt},
@@ -133,6 +161,7 @@ Saved memories:
     message = response["message"]
     tool_calls = message.get("tool_calls", [])
 
+ 
     if tool_calls:
         messages.append(message)
 
@@ -151,9 +180,6 @@ Saved memories:
             else:
                 tool_result = "No valid tool was selected."
 
-        else:
-            tool_result = "No valid tool was selected."
-
             messages.append(
                 {
                     "role": "tool",
@@ -166,6 +192,7 @@ Saved memories:
             model=MODEL_NAME,
             messages=messages,
         )
+
 
     answer = response["message"]["content"].strip()
 

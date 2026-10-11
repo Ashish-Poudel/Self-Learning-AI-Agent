@@ -1,5 +1,5 @@
-
 from mem0 import Memory
+
 
 config = {
     "vector_store": {
@@ -28,23 +28,35 @@ config = {
     },
 }
 
-print("Initializing Mem0...")
-memory = Memory.from_config(config)
 
-print("Saving a memory...")
-result = memory.add(
-    "I am a computer engineering student learning to build AI agents.",
-    user_id="aashish",
-)
-print("Saved:", result)
+def main():
+    print("Initializing Mem0...")
+    memory = Memory.from_config(config)
 
-print("\nSearching memories...")
+    try:
+        print("Saving a memory...")
+        result = memory.add(
+            "I am a computer engineering student learning to build AI agents.",
+            user_id="aashish",
+        )
+        print("Saved:", result)
 
-results = memory.search(
-    query="What am I studying, and what am I learning?",
-    filters={"user_id": "aashish"},
-)
+        print("\nSearching memories...")
+        results = memory.search(
+            query="What am I studying, and what am I learning?",
+            filters={"user_id": "aashish"},
+        )
+        print("Search results:", results)
 
-print("Search results:", results)
+        print("\nMem0 test completed.")
 
-print("\nMem0 test completed.")
+    finally:
+        for store_name in ("vector_store", "_telemetry_vector_store"):
+            store = getattr(memory, store_name, None)
+            client = getattr(store, "client", None)
+            if client is not None:
+                client.close()
+
+
+if __name__ == "__main__":
+    main()

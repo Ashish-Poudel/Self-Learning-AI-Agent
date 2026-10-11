@@ -22,3 +22,10 @@ qdrant_data/
 .vscode/
 .DS_Store
 Thumbs.db
+
+qdrant_memory_updates_test/
+
+
+qdrant_test_data/
+# Separate tutorial repository
+ai-cookbook/
